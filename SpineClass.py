@@ -9,6 +9,7 @@ class Branch:
         self.vector: np.array = np.array(newVector)
         self.origin: Branch | None = newOrigin
         self.tip: np.array = None
+        self.relative_offset: np.array = np.array((0, 0))
         # self.color : tuple[int, int, int] = (255, 0, 0)
         self.getTip()
 
@@ -61,11 +62,9 @@ class SpineEntity:
         else:
             originIndex = max(min(originIndex, len(self.branchList)), 0)
 
-        if not atOrigin:
-            if len(self.branchList) != 0:
-                newBranch.setOrigin(self.branchList[originIndex])
-        else:
-            
+        if not atOrigin and len(self.branchList) != 0:
+            newBranch.setOrigin(self.branchList[originIndex])
+
         self.branchList.append(newBranch)
 
     def move(self, x, y):
@@ -87,11 +86,45 @@ class SpineEntity:
             b.getTip()
 
 
-def formAnimal(animal: Literal['fish', '4legs', '2legs', 'human']):
+def formFigure(figureName: Literal['fish', '4legs', '2legs', 'human', 'art1', 'art2']):
     spen = SpineEntity()
-    if animal == 'fish':
-        spen.addBranch(Branch((-100, 0)))
+    if figureName == 'fish':
+        spen.addBranch(Branch((-60, 0)), atOrigin=True)
+        spen.addBranch(Branch((-60, 0)), 0)
+        spen.addBranch(Branch((-30, 30)), 0)
+        spen.addBranch(Branch((-30, -30)), 0)
+        spen.addBranch(Branch((-50, 50)), 1)
+        spen.addBranch(Branch((-50, -50)), 1)
 
+    elif figureName == 'art1':
+        spen.addBranch(Branch((50, -50)))
+        spen.addBranch(Branch((45, -45)))
+        spen.addBranch(Branch((40, -40)))
+        spen.addBranch(Branch((35, -35)))
+        spen.addBranch(Branch((30, -30)))
+        spen.addBranch(Branch((25, -25)))
+        spen.addBranch(Branch((20, -20)))
+        spen.addBranch(Branch((15, -15)))
+        spen.addBranch(Branch((10, -10)))
+        spen.addBranch(Branch((5, -5)))
+
+    elif figureName == 'art2':
+        spen.addBranch(Branch((50, 0)), atOrigin=True)
+        spen.addBranch(Branch((0, 50)), atOrigin=True)
+        spen.addBranch(Branch((50, 0)), 1)
+        spen.addBranch(Branch((0, 50)), 0)
+        spen.addBranch(Branch((40, 0)), 3)
+        spen.addBranch(Branch((0, 40)), 3)
+        spen.addBranch(Branch((40, 0)), 5)
+        spen.addBranch(Branch((0, 40)), 4)
+        spen.addBranch(Branch((30, 0)), 7)
+        spen.addBranch(Branch((0, 30)), 7)
+        spen.addBranch(Branch((30, 0)), 9)
+        spen.addBranch(Branch((0, 30)), 8)
+        spen.addBranch(Branch((20, 0)), 11)
+        spen.addBranch(Branch((0, 20)), 11)
+        spen.addBranch(Branch((20, 0)), 13)
+        spen.addBranch(Branch((0, 20)), 12)
 
     return spen
 
